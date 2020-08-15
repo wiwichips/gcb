@@ -5,3 +5,5 @@ GCB (Gunk Comic Book) utilizes Distributed Compute Labs' distrubuted supercomput
 - git clone
 - npm install
 - npm start
+- paste this link in your browser http://localhost:1234/example
+- enter credentials for dcp

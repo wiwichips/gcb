@@ -25,6 +25,4 @@ exports.setApp = (app) => {
       message: 'hello world. You should see me in your browser',
     });
   });
-
-
 };
