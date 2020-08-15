@@ -30,7 +30,7 @@ $(document).ready(function() {
         });
 
         // Reset file chosen button
-        var form = document.getElementById('uploadFIle');
+        var form = document.getElementById('uploadFile');
         form.value = null;
     });
 });

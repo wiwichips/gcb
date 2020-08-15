@@ -63,7 +63,6 @@ exports.setApp = (app, rootDirectory) => {
     }
 
     console.log(req.files);
-
     let uploadedFile = req.files.uploadFile;
 
     //  Move the uploaded file to the backend/files directory
@@ -72,7 +71,5 @@ exports.setApp = (app, rootDirectory) => {
         return res.status(500).send(err);
       }
     });
-
-
   });
 };

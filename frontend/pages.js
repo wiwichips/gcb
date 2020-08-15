@@ -13,4 +13,9 @@ exports.setApp = function (app, path) {
   app.get('/index.css', (req, res) => {
     res.sendFile(`${path}/index.css`);
   });
+
+  // Send js
+  app.get('/index.js', (req, res) => {
+      res.sendFile(`${path}/index.js`);
+  });
 };
