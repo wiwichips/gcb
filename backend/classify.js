@@ -1,27 +1,43 @@
-const bodyParser = require('body-parser');
-const dcpJob = require('./dcp.js');
+const tf = require('@tensorflow/tfjs');
+// const tfn = require('@tensorflow/tfjs-node');
+const mobilenet = require('@tensorflow-models/mobilenet');
+const fs = require('fs');
+const imageGet = require('get-image-data');
+// const stat = promisify(fs.stat);
 
-// these are the routes that are exported to app.js
-exports.setApp = (app) => {
-  // for parsing application/json
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+async function loadLocalImage(filename) {
+  return new Promise((res,rej) => {
+    imageGet(filename, (err, info) => {
+      if(err){
+        rej(err);
+        return;
+      }
 
-  app.post('/example', (req, res) => {
-    // call function here
-
-    // enter this in a .then() if making an async call
-    res.send({
-      valid: false,
+      const image = tf.browser.fromPixels(info);
+      console.log(image, '127');
+      res(image);
     });
   });
+}
 
-  app.get('/example', (req, res) => {
-    console.log('hi, you just made a get request to /example');
-    dcpJob.runJobNewInput();
+async function classifyImage(img) {
+  tf.setBackend('cpu');
 
-    res.send({
-      message: 'hello world. You should see me in your browser',
-    });
-  });
+  // image data
+  const imgData = await loadLocalImage(img);
+  
+  // Load the model.
+  const model = await mobilenet.load();
+
+  // Classify the image.
+  const predictions = await model.classify(imgData);
+
+  console.log('Predictions: ');
+  console.log(predictions);
+
+  return 'hello world';
+}
+
+module.exports = {
+  classifyImage,
 };

@@ -1,7 +1,7 @@
-backend/files/*.png
-backend/files/*.jpg
-backend/files/*.jpeg
-
+# images
+tartar.jpeg
+*.jp
+*.png
 
 # Logs
 logs
