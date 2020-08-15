@@ -32,7 +32,7 @@ $(document).ready(function() {
         var name = form.files[0].name;        
 
         // If the image that was uploaded is not a jpg, reject it
-        if (name.split('.')[1] != 'jpg' || name.split('.')[1] != 'jpeg') {
+        if (name.split('.')[1] != 'jpg' && name.split('.')[1] != 'jpeg') {
             alert("Error! Cannot process image! Only .jpg and .jpeg images are allowed.");
             return;
         }
