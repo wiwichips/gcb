@@ -4,6 +4,7 @@ const dcpJob = require('./dcp.js');
 const classify = require('./classify.js');
 const fs = require('fs');
 const path = require('path');
+const { fileURLToPath } = require('url');
 
 // these are the routes that are exported to app.js
 exports.setApp = (app, rootDirectory) => {
@@ -72,4 +73,59 @@ exports.setApp = (app, rootDirectory) => {
       }
     });
   });
+
+  // Respond to GET request to classify an image
+  app.get('/classify', function(req, res) {
+    console.log(`got here: ${req.query.filename}`);
+    classyify("./backend/files/" + req.query.filename);
+    //TODO: Return the classification results to browser
+    //TODO: Move these functions elsewhere(?)
+    res.send("hello");
+  });
 };
+
+// The following functions are for the categorization of the image
+const tf = require('@tensorflow/tfjs');
+const mobilenet = require('@tensorflow-models/mobilenet');
+require('@tensorflow/tfjs-node');
+const jpeg = require('jpeg-js');
+
+const readImage = path => {
+  const buf = fs.readFileSync(path);
+  const pixels = jpeg.decode(buf, true);
+  return pixels;
+}
+
+const imageByteArray = (image, numChannels) => {
+  const pixels = image.data;
+  const numPixels =image.width * image.height;
+  const values = new Int32Array(numPixels * numChannels);
+
+  for (var i = 0; i < numPixels; i++) {
+    for (var chan = 0; chan < numChannels; ++chan) {
+      values[i * numChannels + chan] = pixels[i * 4 + chan];
+    }
+  }
+
+  return values;
+}
+
+const imageToInput = (image, numChannels) => {
+  const values = imageByteArray(image, numChannels);
+  const outShape = [image.height, image.width, numChannels];
+  const input = tf.tensor3d(values, outShape, 'int32');
+
+  return input;
+}
+
+const classyify = async (path) => {
+  const image = readImage(path);
+  const input = imageToInput(image, 3);
+
+  // Load model
+  const model = await mobilenet.load();
+
+  // Classify image
+  const predictions = await model.classify(input);
+  console.log("Predictions:\n", predictions);
+}

@@ -33,8 +33,18 @@ $(document).ready(function() {
         // that was just uploaded
         var form = document.getElementById('uploadFile');
         $('#imgToEvaluate').attr("src", 'pic/' + form.files[0].name);
+        var name = form.files[0].name;
 
         // Reset file chosen button
-        form.value = null;
+        //form.value = null;
+
+        // Once we have the image uploaded and on the page, we can now run the 
+        // classification script
+        $.ajax({
+            type: 'get',
+            url: '/classify',
+            data: {filename: name},
+        });
+
     });
 });
