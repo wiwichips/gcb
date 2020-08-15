@@ -30,6 +30,7 @@
     "jpeg-js": "^0.4.1",
     "node-pre-gyp": "^0.15.0",
     "path": "^0.12.7",
+    "png-to-jpeg": "^1.0.1",
     "prompt-sync": "^4.2.0"
   }
 }

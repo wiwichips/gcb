@@ -77,10 +77,12 @@ exports.setApp = (app, rootDirectory) => {
   // Respond to GET request to classify an image
   app.get('/classify', function(req, res) {
     console.log(`got here: ${req.query.filename}`);
-    classyify("./backend/files/" + req.query.filename);
+    let fn = req.query.filename;
+
+    classyify("./backend/files/" + fn)
+      .then((result) => {res.send(result)});
     //TODO: Return the classification results to browser
     //TODO: Move these functions elsewhere(?)
-    res.send("hello");
   });
 };
 
@@ -128,4 +130,5 @@ const classyify = async (path) => {
   // Classify image
   const predictions = await model.classify(input);
   console.log("Predictions:\n", predictions);
+  return predictions;
 }

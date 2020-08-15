@@ -44,6 +44,10 @@ $(document).ready(function() {
             type: 'get',
             url: '/classify',
             data: {filename: name},
+
+            success: (data) => {
+                console.log(data);
+            }
         });
 
     });
