@@ -15,17 +15,6 @@ app.use(express.static(path.join(`${__dirname}/files`)));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.get('/style.css', (req, res) => {
-//   res.sendFile(path.join(`${__dirname}/testing/style.css`));
-// });
-
-app.get('/index.js', (req, res) => {
-  fs.readFile(path.join(`${__dirname}/frontend/index.js`), 'utf8', (err, contents) => {
-    res.contentType('application/javascript');
-    res.send(contents);
-  });
-});
-
 // endpoints
 // require('./validation/validationRoute.js').setApp(app);
 
