@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    $('#uploadFile').on('change'), function(e) {
+    $('#uploadFile').on('change', function(e) {
+        console.log("detected change");
         // Prepare the data to send
         e.preventDefault();
         var form = document.getElementById('uploadForm');
@@ -31,5 +32,5 @@ $(document).ready(function() {
         // Reset file chosen button
         var form = document.getElementById('uploadFIle');
         form.value = null;
-    }
+    });
 });
