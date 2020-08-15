@@ -1,43 +1,62 @@
-const tf = require('@tensorflow/tfjs');
+// const tf = require('@tensorflow/tfjs');
 // const tfn = require('@tensorflow/tfjs-node');
-const mobilenet = require('@tensorflow-models/mobilenet');
-const fs = require('fs');
-const imageGet = require('get-image-data');
-// const stat = promisify(fs.stat);
+// const mobilenet = require('@tensorflow-models/mobilenet');
+// const fs = require('fs');
+// const imageGet = require('get-image-data');
+// // const stat = promisify(fs.stat);
 
-async function loadLocalImage(filename) {
-  return new Promise((res,rej) => {
-    imageGet(filename, (err, info) => {
-      if(err){
-        rej(err);
-        return;
-      }
+// async function loadLocalImage(filename) {
+//   return new Promise((res,rej) => {
+//     imageGet(filename, (err, info) => {
+//       if(err){
+//         rej(err);
+//         return;
+//       }
 
-      const image = tf.browser.fromPixels(info);
-      console.log(image, '127');
-      res(image);
-    });
-  });
-}
+//       const image = tf.browser.fromPixels(info.data);
+//       console.log(image, '127');
+//       res(image);
+//     });
+//   });
+// }
 
-async function classifyImage(img) {
-  tf.setBackend('cpu');
+// async function classifyImage(img) {
+//   tf.setBackend('cpu');
 
-  // image data
-  const imgData = await loadLocalImage(img);
+//   // image data
+//   const imgData = await loadLocalImage(img);
   
-  // Load the model.
-  const model = await mobilenet.load();
+//   // Load the model.
+//   const model = await mobilenet.load();
 
-  // Classify the image.
-  const predictions = await model.classify(imgData);
+//   // Classify the image.
+//   const predictions = await model.classify(imgData);
 
-  console.log('Predictions: ');
-  console.log(predictions);
+//   console.log('Predictions: ');
+//   console.log(predictions);
 
-  return 'hello world';
+//   return 'hello world';
+// }
+
+// module.exports = {
+//   classifyImage,
+// };
+
+
+// Note: you do not need to import @tensorflow/tfjs here.
+
+const mobilenet = require('@tensorflow-models/mobilenet');
+
+async function thing() {
+
+const img = document.getElementById('img');
+
+// Load the model.
+const model = await mobilenet.load();
+
+// Classify the image.
+const predictions = await model.classify(img);
+
+console.log('Predictions: ');
+console.log(predictions);
 }
-
-module.exports = {
-  classifyImage,
-};
