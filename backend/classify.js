@@ -18,8 +18,7 @@ exports.setApp = (app) => {
 
   app.get('/example', (req, res) => {
     console.log('hi, you just made a get request to /example');
-
-    // dcpJob.runJob();
+    dcpJob.runJobNewInput();
 
     res.send({
       message: 'hello world. You should see me in your browser',

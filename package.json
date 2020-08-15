@@ -21,6 +21,7 @@
     "dcp-client": "^3.1.11",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "prompt-sync": "^4.2.0"
   }
 }
