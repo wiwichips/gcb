@@ -29,8 +29,12 @@ $(document).ready(function() {
             }
         });
 
-        // Reset file chosen button
+        // Change the source of the placeholder image on the site to the image
+        // that was just uploaded
         var form = document.getElementById('uploadFile');
+        $('#imgToEvaluate').attr("src", 'pic/' + form.files[0].name);
+
+        // Reset file chosen button
         form.value = null;
     });
 });
