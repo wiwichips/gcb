@@ -9,27 +9,22 @@
   <!-- Load jquery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-
-  <!-- scripts below are unnecessary since its being done through node -->
-  
-  <!-- Load tensorflow.js -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script> -->
-
-  <!-- Load the MobileNet model. -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script> -->
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
+  <!-- Header -->
+  <h1>GCB (Gunk Comic Book)</h1>
+  <h4>
+    <span>Made with</span>
+    <span style="color:red">♥</span>
+    <span>by Will Pringle and Rafael Wiska-Ilnicki for <a href="https://www.distributedhackathon.com" target="_blank"/>Distributed Summer 2020</a></span>
+  </h4>
   
-  <div class="form-group">
-    <input type="file" name='uploadFile' id='uploadFile'/>
-  </div>
+  <!-- Body of the website -->
+  <input type="file" id="upbtn" name="upbtn" accept="image/png, image/jpeg" multiple/>
 
-  <!-- Replace this with your image. Make sure CORS settings allow reading the image! -->
-  <img id="img" src="uploadFile"></img>
-
-  <script src="./index.js"></script>
 </body>
 
 </html>
