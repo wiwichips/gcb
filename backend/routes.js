@@ -30,22 +30,25 @@ exports.setApp = (app, rootDirectory) => {
   });
 
   app.get('/load-model', (req, res) => {
-    classify.classifyImage().then((str) => {
+    const imgString = path.join(`${rootDirectory}/tartar.jpeg`);
+    classify.classifyImage(imgString).then((str) => {
       console.log(str);
     });
 
     res.send({
-      message: 'hello world. You should see me in your browser',
+      message: imgString,
     });
   });
 
-  app.get('/profile-picture/:name', (req, res) => {
-    fs.stat(`files/${req.params.name}`, (err) => {
+  // would not need this, just have it as an example
+  app.get('/pic/:name', (req, res) => {
+    fs.stat(`${rootDirectory}/${req.params.name}`, (err) => {
       if (err == null) {
-        res.sendFile(path.join(`${rootDirectory}/files/${req.params.name}`));
+        console.log(req.params.name);        
+        res.sendFile(path.join(`${rootDirectory}/${req.params.name}`));
       } else {
         console.log(`Error in file downloading route: ${err}`);
-        res.sendFile(path.join(`${rootDirectory}/files/profile/defaultProfilePicture.jpg`));
+        res.sendFile(path.join(`${rootDirectory}/tartar.jpeg`));
       }
     });
   });
