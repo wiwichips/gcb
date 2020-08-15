@@ -1,0 +1,25 @@
+{
+  "name": "gcb",
+  "version": "1.0.0",
+  "description": "GCB (Gunk Comic Book) utilizes Distributed Compute Labs' distrubuted supercomputer to extract text from comic books and manga as well as translate to another language using pretrained image and language classification.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node backend/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiwichips/gcb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wiwichips/gcb/issues"
+  },
+  "homepage": "https://github.com/wiwichips/gcb#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
