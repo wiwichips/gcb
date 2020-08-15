@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // endpoints
-// require('./validation/validationRoute.js').setApp(app);
+require('./classify.js').setApp(app);
 
 // front end
 const feDirSegs = __dirname.split('/');
