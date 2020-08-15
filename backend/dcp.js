@@ -1,9 +1,8 @@
 const dcp = require('dcp-client');
+const compute = require('dcp/compute');
+const wallet  = require('dcp/wallet');
 
 async function main() {
-  const compute = require('dcp/compute');
-  const wallet  = require('dcp/wallet');
-
   let job, startTime;
 
   const colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];
@@ -36,7 +35,7 @@ async function main() {
 
   let ks = await wallet.get(); /* usually loads ~/.dcp/default.keystore */
   job.setPaymentAccountKeystore(ks);
-  await job.exec();
+  await job.localExec();
 }
 
 function runJob() {
