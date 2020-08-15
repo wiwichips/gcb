@@ -8,4 +8,9 @@ exports.setApp = function (app, path) {
   app.get('/', (req, res) => {
     res.sendFile(`${path}/index.html`);
   });
+
+  // Send css
+  app.get('/index.css', (req, res) => {
+    res.sendFile(`${path}/index.css`);
+  });
 };

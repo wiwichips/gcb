@@ -4,11 +4,13 @@ const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 
 // set app
 const app = express();
 
 // set upload path
+app.use(fileUpload())
 app.use(express.static(path.join(`${__dirname}/files`)));
 
 // bodyparser (for post requests)

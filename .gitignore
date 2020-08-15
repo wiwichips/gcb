@@ -1,6 +1,6 @@
 # images
 tartar.jpeg
-*.jp
+*.jp*
 *.png
 
 # Logs

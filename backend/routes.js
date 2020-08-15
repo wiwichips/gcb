@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+
 const dcpJob = require('./dcp.js');
 const classify = require('./classify.js');
 const fs = require('fs');
@@ -51,5 +52,27 @@ exports.setApp = (app, rootDirectory) => {
         res.sendFile(path.join(`${rootDirectory}/tartar.jpeg`));
       }
     });
+  });
+
+  // Respond to POST requests that a file has been uploaded to the 
+  // backend/files/ directory
+  app.post('/upload', function(req, res) {
+    // If nothing was uploaded
+    if (!req.files) {
+      return res.status(400).send('No files were uploaded.');
+    }
+
+    console.log(req.files);
+
+    let uploadedFile = req.files.uploadFile;
+
+    //  Move the uploaded file to the backend/files directory
+    uploadedFile.mv('backend/files/' + uploadedFile.name, function(err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+    });
+
+
   });
 };
