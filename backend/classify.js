@@ -1,5 +1,5 @@
 const tf = require('@tensorflow/tfjs');
-const tfn = require('@tensorflow/tfjs-node');
+// const tfn = require('@tensorflow/tfjs-node');
 const mobilenet = require('@tensorflow-models/mobilenet');
 const fs = require('fs');
 const imageGet = require('get-image-data');

@@ -26,6 +26,7 @@
     "fs": "0.0.1-security",
     "get-image-data": "^5.0.0",
     "jimp": "^0.16.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "prompt-sync": "^4.2.0"
   }
 }

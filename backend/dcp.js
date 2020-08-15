@@ -1,4 +1,5 @@
 const dcp = require('dcp-client');
+var ARR = [];
 
 async function main() {
   // these have to be here
@@ -7,11 +8,11 @@ async function main() {
 
   let job, startTime;
 
-  const colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];
+  colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];
 
-  job = compute.for(colours, (colour) => {
+  job = compute.for(ARR, (colour) => {
     progress();
-    const string = colour.split().reverse().join();
+    const string = colour.split("").reverse().join("");
     return string;
   });
 
@@ -44,7 +45,18 @@ function runJob() {
   dcp.init().then(main).finally(() => setImmediate(process.exit));
 }
 
+function runJobNewInput() {
+  const prompt = require('prompt-sync')();
+
+  // Get numbers from the user
+  for (i = 0; i < 5; i++) {
+      ARR[i] = prompt(`Enter word #${i}: `);
+  }
+  
+  runJob();  
+}
+
 // this exports these functions as public functions
 module.exports = {
-  runJob,
+  runJob, runJobNewInput,
 };
