@@ -1,8 +1,10 @@
 const dcp = require('dcp-client');
 
 async function main() {
+  // these have to be here
   const compute = require('dcp/compute');
   const wallet  = require('dcp/wallet');
+
   let job, startTime;
 
   const colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];

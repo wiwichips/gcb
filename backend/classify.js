@@ -1,28 +1,24 @@
-const bodyParser = require('body-parser');
-const dcpJob = require('./dcp.js');
+// const tf = require('@tensorflow/tfjs');
+const mobilenet = require('@tensorflow-models/mobilenet');
+const fs = require('fs');
+// const stat = promisify(fs.stat);
 
-// these are the routes that are exported to app.js
-exports.setApp = (app) => {
-  // for parsing application/json
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.post('/example', (req, res) => {
-    // call function here
+async function classifyImage(img) {
+  
+  
+  // Load the model.
+  const model = await mobilenet.load();
 
-    // enter this in a .then() if making an async call
-    res.send({
-      valid: false,
-    });
-  });
+  // Classify the image.
+  const predictions = await model.classify(img);
 
-  app.get('/example', (req, res) => {
-    console.log('hi, you just made a get request to /example');
+  console.log('Predictions: ');
+  console.log(predictions);
 
-    // dcpJob.runJob();
+  return 'hello world';
+}
 
-    res.send({
-      message: 'hello world. You should see me in your browser',
-    });
-  });
+module.exports = {
+  classifyImage,
 };

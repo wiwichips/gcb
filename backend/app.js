@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // endpoints
-require('./classify.js').setApp(app);
+require('./routes.js').setApp(app, `${__dirname}/files`);
 
 // front end
 const feDirSegs = __dirname.split('/');
