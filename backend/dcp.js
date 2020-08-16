@@ -1,5 +1,6 @@
 const dcp = require('dcp-client');
-var ARR = [];
+let globalJob;
+let globalInput;
 
 async function main() {
   // these have to be here
@@ -8,13 +9,9 @@ async function main() {
 
   let job, startTime;
 
-  colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];
+  const colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];
 
-  job = compute.for(ARR, (colour) => {
-    progress();
-    const string = colour.split("").reverse().join("");
-    return string;
-  });
+  job = compute.for(globalInput, globalJob);
 
   job.on('accepted', (ev) => {
     console.log(`o_o -> Job accepted by scheduler -> Job has id ${this.id}\n\n`);
@@ -41,22 +38,18 @@ async function main() {
   await job.localExec();
 }
 
-function runJob() {
-  dcp.init().then(main).finally(() => setImmediate(process.exit));
-}
+function runJob(job, input) {
+  globalJob = job;
+  globalInput = input;
 
-function runJobNewInput() {
-  const prompt = require('prompt-sync')();
-
-  // Get numbers from the user
-  for (i = 0; i < 5; i++) {
-      ARR[i] = prompt(`Enter word #${i}: `);
-  }
-  
-  runJob();  
+  dcp.init().then(main).finally(() => {
+    
+    setImmediate(process.exit);
+    return 'hello';
+  });
 }
 
 // this exports these functions as public functions
 module.exports = {
-  runJob, runJobNewInput,
+  runJob,
 };
