@@ -1,6 +1,7 @@
 const dcp = require('dcp-client');
 let globalJob;
 let globalInput;
+let globalModel;
 
 async function main() {
   // these have to be here
@@ -8,8 +9,6 @@ async function main() {
   const wallet  = require('dcp/wallet');
 
   let job, startTime;
-
-  const colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];
 
   job = compute.for(globalInput, globalJob);
 
@@ -30,8 +29,8 @@ async function main() {
     console.log(`COLOUR = ${ev.result} -> \tReceived result for slice ${ev.sliceNumber} at ${Math.round((Date.now() - startTime) / 100)/10}s`);
   })
 
-  job.public.name = 'events example, nodejs';
-  job.public.description = 'DCP-Client Example examples/node/events.js';
+  job.public.name = 'GUNK Gunstribute';
+  job.public.description = 'Object detection using distributed computing, from Team Gunk';
 
   let ks = await wallet.get(); /* usually loads ~/.dcp/default.keystore */
   job.setPaymentAccountKeystore(ks);
@@ -49,7 +48,18 @@ function runJob(job, input) {
   });
 }
 
+function runRafaelJob(job, model, input) {
+  globalJob = job;
+  globalInput = [input, model];
+
+  dcp.init().then(main).finally(() => {
+    setImmediate(process.exit);
+    return 'hello';
+  });
+}
+
 // this exports these functions as public functions
 module.exports = {
   runJob,
+  runRafaelJob,
 };

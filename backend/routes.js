@@ -79,10 +79,16 @@ exports.setApp = (app, rootDirectory) => {
     console.log(`got here: ${req.query.filename}`);
     let fn = req.query.filename;
 
-    classify.classyify("./backend/files/" + fn)
-      .then((result) => {res.send(result)});
-    //TODO: Return the classification results to browser
-    //TODO: Move these functions elsewhere(?)
+    // Tensorize the image
+    const image = classify.readImage(fn);
+    const tensorImg = imageToInput(image, 3);
+
+    // Serialize the model
+    let model = classify.loadAndSerializeModel();
+
+    // Allow the Bogandoffs to call the job
+    dcpJob.runRafaelJob(classify.classyifyRafael, tensorImg, model, require('@tensorflow-models/mobilenet'));
+    //classify.classyify("./backend/files/" + fn).then((result) => {res.send(result)});
   });
 
   // Respond to GET request to classify an image

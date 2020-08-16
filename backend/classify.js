@@ -45,6 +45,19 @@ function getImageAsTensor(path) {
   return input
 }
 
+const loadAndSerializeModel = async() => {
+    // Load model
+    const model = await mobilenet.load();
+  
+    // Serialize the model
+    const artifactsArray = [];
+    await model.save(tf.io.withSaveHandler(artifacts => {
+      artifactsArray.push(artifacts);
+    }));
+
+    return artifactsArray;
+}
+
 
 const classyify = async (path) => {
   const image = readImage(path);
@@ -57,6 +70,22 @@ const classyify = async (path) => {
   const predictions = await model.classify(input);
   console.log("Predictions:\n", predictions);
   return predictions;tumb
+}
+
+const classyifyRafael = async (tensorImg, modelSerialized) => {
+  // Unpack array
+  let tensorImg = input[0];
+  let modelSerialized = input[1];
+
+  // Load model from memory
+  const model = await tf.loadModel(tf.io.fromMemory(
+    modelSerialized[0].modelTopology, modelSerialized[0].weightSpecs,
+    artifactsArray[0].weightData));
+
+  // Classify image
+  const predictions = await model.classify(tensorImg);
+  console.log("Predictions:\n", predictions);
+  return predictions;
 }
 
 // clsasyify3 expects image tensor from getImageAsTensor
@@ -78,4 +107,6 @@ module.exports = {
   classyify,
   getImageAsTensor,
   classyify3,
+  loadAndSerializeModel,
+  classyifyRafael,
 }
