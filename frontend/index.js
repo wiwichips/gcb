@@ -47,16 +47,16 @@ $(document).ready(function() {
         // classification script
         $.ajax({
             type: 'get',
-            url: '/classify',
+            url: '/classifytar',
             data: {filename: name},
 
             success: (data) => {
                 // Display the results on the webpage
                 console.log(data);
-                let results = "<b>" + "Your image contains" + "</b><br />";
-                data.forEach(function(item) {
-                    results += item.className + " (" + (item.probability * 100).toFixed(2) + "%)" + "<br />"
-                });
+                let results = "<b>" + "Your image contains " + data + "</b><br />";
+                // data.forEach(function(item) {
+                //     results += item.className + " (" + (item.probability * 100).toFixed(2) + "%)" + "<br />"
+                // });
                 console.log(results);
                 $('#imgResults').html(results);
                 $('#tryAgainButtonDiv').append('<button type="button" onClick="window.location.reload();" id="tryAgainButton" class="btn btn-success">Try Again</button>')

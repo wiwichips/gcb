@@ -96,7 +96,7 @@ exports.setApp = (app, rootDirectory) => {
 
     const fn_str = req.query.filename + "";
 
-    const files = [fn_str, "./backend/files/images.jpeg"];
+    const files = [`./backend/files/${fn_str}`, "./backend/files/images.jpeg"];
 
     var imgFile = fs.readFileSync(files[0]);
     var imageTensor = tfn.node.decodeJpeg(imgFile, 3);
