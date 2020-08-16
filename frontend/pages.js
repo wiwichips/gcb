@@ -18,4 +18,8 @@ exports.setApp = function (app, path) {
   app.get('/index.js', (req, res) => {
       res.sendFile(`${path}/index.js`);
   });
+
+  app.get('/bg.gif', (req, res) => {
+    res.sendFile(`${path}/bg.gif`);
+  });
 };

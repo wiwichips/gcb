@@ -59,6 +59,7 @@ $(document).ready(function() {
                 });
                 console.log(results);
                 $('#imgResults').html(results);
+                $('#tryAgainButtonDiv').append('<button type="button" onClick="window.location.reload();" id="tryAgainButton" class="btn btn-success">Try Again</button>')
 
 
             }
