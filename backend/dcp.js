@@ -11,27 +11,33 @@ async function main() {
   let job, startTime;
 
   job = compute.for(globalInput, async (imageTensor) => {
+    console.log('please!!!!!c     !!!!!!!!!c     !!!!!!!!!!!!c     !!!!!!!!!!');
     // var tf = require('tfjs');
     var mobileNet = require('./mobilenet_bundled.js');
-    tf.setBackend('webgl');
-
-    progress(0.5);
-    
+    // tf.setBackend('webgl');    
+    mobileNet = require('mobilenetv2/mobilenet');
 
     // get the model
+    console.log('\nget the model');
     let model = await mobileNet.getModel();
+    console.log('model has been got');
 
     // make predictions
+    console.log('make predictions');
+    console.log(model);
     const predictions = await model.classify(imageTensor);
+    console.log('predictions have been gotten');
+    console.log(predictions);
     return predictions;
   });
 
   // job require tensorflow 
   job.requires('aistensorflow/tfjs');
-  job.requires('./mobilenet_bundled.js');
+  // job.requires('./mobilenet_bundled.js');
+  job.requires('mobilenetv2/mobilenet');
 
   job.on('accepted', (ev) => {
-    console.log(`o_o -> Job accepted by scheduler -> Job has id ${this.id}\n\n`);
+    console.log(`Job accepted by scheduler -> this.id = ${this.id}\n\n`);
     startTime = Date.now();
   })
 
@@ -42,6 +48,14 @@ async function main() {
   job.on('readystatechange', (arg) => {
     console.log(`\t\tnew ready state: ${arg}`);
   })
+
+  job.on('status', (update) => {console.log(update)});
+
+  job.on('console.log', (message) => { 
+    console.log('console.log = ');
+    console.log(message);
+    console.log('\n');
+  });
   
   job.on('result', (ev) => {
     console.log(`COLOUR = ${ev.result} -> \tReceived result for slice ${ev.sliceNumber} at ${Math.round((Date.now() - startTime) / 100)/10}s`);
