@@ -11,12 +11,12 @@ async function main() {
   let job, startTime;
 
   job = compute.for(globalInput, async (imageTensor) => {
-    var tf = require('tfjs');
+    // var tf = require('tfjs');
     var mobileNet = require('./mobilenet_bundled.js');
     tf.setBackend('webgl');
 
-    // progress(0.5);
     progress(0.5);
+    
 
     // get the model
     let model = await mobileNet.getModel();
@@ -54,7 +54,7 @@ async function main() {
 
   let ks = await wallet.get(); /* usually loads ~/.dcp/default.keystore */
   job.setPaymentAccountKeystore(ks);
-  await job.localExec();
+  await job.exec();
 }
 
 async function runJob(inputs) {
