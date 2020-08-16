@@ -1,11 +1,13 @@
 const bodyParser = require('body-parser');
-
+const imageNetClasses = require('./imagenet_classes.js').IMAGENET_CLASSES;
 const dcpJob = require('./dcp.js');
 const classify = require('./classify.js');
 const fs = require('fs');
 const path = require('path');
 const { fileURLToPath } = require('url');
 // const tf = require('tensorflow/tfjs');
+const tfn             = require('@tensorflow/tfjs-node');
+
 
 // these are the routes that are exported to app.js
 exports.setApp = (app, rootDirectory) => {
@@ -90,14 +92,26 @@ exports.setApp = (app, rootDirectory) => {
   app.get('/classifytar', function(req, res) {
     console.log(`got here: ${req.query.filename}`);
     let fn = req.query.filename;
+    console.log(fn);
 
-    const files = ["./backend/files/tartar.jpeg", "./backend/files/images.jpeg"];
+    const fn_str = req.query.filename + "";
 
-    const imageTensors = files.map((str) => classify.getImageAsTensor(str));
+    const files = [fn_str, "./backend/files/images.jpeg"];
 
-    dcpJob.runJob(imageTensors).then((res) => {
+    var imgFile = fs.readFileSync(files[0]);
+    var imageTensor = tfn.node.decodeJpeg(imgFile, 3);
+    var sliceData = {
+      data: imageTensor.arraySync(),
+      shape: imageTensor.shape,
+      classes: JSON.stringify(imageNetClasses)
+    }; 
+
+    // const imageTensors = files.map((str) => classify.getImageAsTensor(str));
+
+    dcpJob.runJob(sliceData).then((pred) => {
       console.log('\n\nRESULTS - should print mobilenet');
-      console.log(res);
+      console.log(pred);
+      res.send(pred);
     });
 
     
