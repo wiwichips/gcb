@@ -77,11 +77,11 @@ exports.setApp = (app, rootDirectory) => {
   // Respond to GET request to classify an image
   app.get('/classify', function(req, res) {
     console.log(`got here: ${req.query.filename}`);
-    let fn = req.query.filename;
+    let fn = "./backend/files/" + req.query.filename;
 
     // Tensorize the image
     const image = classify.readImage(fn);
-    const tensorImg = imageToInput(image, 3);
+    const tensorImg = classify.imageToInput(image, 3);
 
     // Serialize the model
     let model = classify.loadAndSerializeModel();

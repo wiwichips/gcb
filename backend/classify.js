@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const dcpJob = require('./dcp.js');
 const fs = require('fs');
 const path = require('path');
-const { fileURLToPath } = require('url');
 
 // The following functions are for the categorization of the image
 const tf = require('@tensorflow/tfjs');
@@ -72,7 +71,9 @@ const classyify = async (path) => {
   return predictions;tumb
 }
 
-const classyifyRafael = async (tensorImg, modelSerialized) => {
+const classyifyRafael = async (input) => {
+  var tf = require('tfjs');
+
   // Unpack array
   let tensorImg = input[0];
   let modelSerialized = input[1];
@@ -80,7 +81,7 @@ const classyifyRafael = async (tensorImg, modelSerialized) => {
   // Load model from memory
   const model = await tf.loadModel(tf.io.fromMemory(
     modelSerialized[0].modelTopology, modelSerialized[0].weightSpecs,
-    artifactsArray[0].weightData));
+    modelSerialized[0].weightData));
 
   // Classify image
   const predictions = await model.classify(tensorImg);
@@ -109,4 +110,5 @@ module.exports = {
   classyify3,
   loadAndSerializeModel,
   classyifyRafael,
+  imageToInput,
 }
