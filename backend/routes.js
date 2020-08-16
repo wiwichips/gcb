@@ -5,6 +5,7 @@ const classify = require('./classify.js');
 const fs = require('fs');
 const path = require('path');
 const { fileURLToPath } = require('url');
+// const tf = require('tensorflow/tfjs');
 
 // these are the routes that are exported to app.js
 exports.setApp = (app, rootDirectory) => {
@@ -91,11 +92,23 @@ exports.setApp = (app, rootDirectory) => {
     let fn = req.query.filename;
 
     const files = ["./backend/files/tartar.jpeg", "./backend/files/images.jpeg"];
-    const tensors = files.map((str) => classify.getImageAsTensor(str));
 
-    dcpJob.runJob(classify.classyify3, tensors, require('@tensorflow-models/mobilenet'));
+    const imageTensors = files.map((str) => classify.getImageAsTensor(str));
+
+    dcpJob.runJob(imageTensors).then((res) => {
+      console.log('\n\nRESULTS - should print mobilenet');
+      console.log(res);
+    });
+
+    
       // .then((result) => {res.send(result)});
     //TODO: Return the classification results to browser
     //TODO: Move these functions elsewhere(?)
+  });
+
+  app.get('/test-save', function(req, res) {
+    classify.getModel().then((result) => {
+      console.log(result);
+    });
   });
 };

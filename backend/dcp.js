@@ -1,4 +1,5 @@
 const dcp = require('dcp-client');
+
 let globalJob;
 let globalInput;
 
@@ -9,9 +10,25 @@ async function main() {
 
   let job, startTime;
 
-  const colours = ["red", "green", "yellow", "blue", "brown", "orange", "pink"];
+  job = compute.for(globalInput, async (imageTensor) => {
+    var tf = require('tfjs');
+    var mobileNet = require('./mobilenet_bundled.js');
+    tf.setBackend('webgl');
 
-  job = compute.for(globalInput, globalJob);
+    // progress(0.5);
+    progress(0.5);
+
+    // get the model
+    let model = await mobileNet.getModel();
+
+    // make predictions
+    const predictions = await model.classify(imageTensor);
+    return predictions;
+  });
+
+  // job require tensorflow 
+  job.requires('aistensorflow/tfjs');
+  job.requires('./mobilenet_bundled.js');
 
   job.on('accepted', (ev) => {
     console.log(`o_o -> Job accepted by scheduler -> Job has id ${this.id}\n\n`);
@@ -28,6 +45,8 @@ async function main() {
   
   job.on('result', (ev) => {
     console.log(`COLOUR = ${ev.result} -> \tReceived result for slice ${ev.sliceNumber} at ${Math.round((Date.now() - startTime) / 100)/10}s`);
+    console.log(ev.result);
+    console.log("\n\n\n\n\n\n");
   })
 
   job.public.name = 'events example, nodejs';
@@ -38,15 +57,22 @@ async function main() {
   await job.localExec();
 }
 
-function runJob(job, input) {
-  globalJob = job;
-  globalInput = input;
+async function runJob(inputs) {
+  globalInput = inputs;
 
-  dcp.init().then(main).finally(() => {
-    
-    setImmediate(process.exit);
-    return 'hello';
-  });
+  // initialize the dcp
+  console.log('\n\tInitializing DCP\t~~~~~~~~~');
+  const init = await dcp.init();
+
+  // run the job
+  console.log('\n\tRunning the job\t\t~~~~~~~~~');
+  const jobValue = await main(init);
+
+  // end the process
+  console.log('\n\tending the process DCP\t~~~~~~~~~');
+  await setImmediate(process.exit);
+
+  return jobValue;
 }
 
 // this exports these functions as public functions
