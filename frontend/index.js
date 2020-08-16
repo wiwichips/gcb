@@ -40,7 +40,7 @@ $(document).ready(function() {
         // Change the source of the placeholder image on the site to the image
         // that was just uploaded
         $('#imgToEvaluate').attr("src", 'pic/' + name);
-
+        $('#imgResults').text("Determining what's in your image...");
 
 
         // Once we have the image uploaded and on the page, we can now run the 
@@ -51,7 +51,16 @@ $(document).ready(function() {
             data: {filename: name},
 
             success: (data) => {
+                // Display the results on the webpage
                 console.log(data);
+                let results = "<b>" + "Your image contains" + "</b><br />";
+                data.forEach(function(item) {
+                    results += item.className + " (" + (item.probability * 100).toFixed(2) + "%)" + "<br />"
+                });
+                console.log(results);
+                $('#imgResults').html(results);
+
+
             }
         });
     });
