@@ -1,7 +1,7 @@
 # Gunkstribute
 A web application that renames photos in a photo gallery using MobileNet.
 
-Unde the hood it uses Kings Distributed Systems' JavaScript Distributed Supercomputer to classify images in parallel.
+Under the hood it uses Kings Distributed Systems' JavaScript Distributed Supercomputer to classify images in parallel.
 
 # Instructions to run
 - git clone
